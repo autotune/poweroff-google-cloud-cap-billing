@@ -53,6 +53,8 @@ MY_GCP_SERVICES=(
     "cloudbuild.googleapis.com"
     # Cloud Function API
     "cloudfunctions.googleapis.com"
+    # Cloud Secrets API
+    "secretmanager.googleapis.com"
 )
 
 # Enable API
