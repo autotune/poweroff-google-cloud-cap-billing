@@ -53,7 +53,7 @@ resource "google_secret_manager_secret" "slack-token" {
 }
 
 
-resource "google_secret_manager_secret_version" "github-token" {
+resource "google_secret_manager_secret_version" "slack-token" {
   secret = google_secret_manager_secret.slack-token.id
 
   secret_data = var.slack_token 
