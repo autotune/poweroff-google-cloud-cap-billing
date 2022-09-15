@@ -171,37 +171,14 @@ resource "google_storage_bucket" "my-cap-billing-bucket" {
   }
 }
 
-# Create ZIP with source code for GCF
-# https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/archive_file
-data "archive_file" "my-cap-billing-source" {
-  type = "zip"
-  source {
-    content  = file("${path.module}/function-source/main.py")
-    filename = "main.py"
-  }
-  source {
-    content  = file("${path.module}/function-source/requirements.txt")
-    filename = "requirements.txt"
-  }
-  output_path = "${path.module}/function-source.zip"
-}
-
-resource null_resource dummy_trigger {
-  triggers = {
-    timestamp = timestamp()
-  }
-}
-
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
   name   = "function-source-${data.archive_file.my-cap-billing-source.output_md5}.zip"
   bucket = google_storage_bucket.my-cap-billing-bucket.name
-  source = data.archive_file.my-cap-billing-source.output_path
+  source = file("${path.module}/function-source.zip")
   depends_on = [
-    google_storage_bucket.my-cap-billing-bucket,
-    data.archive_file.my-cap-billing-source,
-    null_resource.dummy_trigger
+    google_storage_bucket.my-cap-billing-bucket
   ]
 }
 

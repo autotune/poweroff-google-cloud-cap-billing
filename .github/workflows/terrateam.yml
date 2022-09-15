@@ -31,6 +31,13 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
+      - name: Zip Release Function1
+        uses: TheDoctor0/zip-release@0.4.1
+        with:
+          # Filename for archive
+          filename: ./function-source.zip 
+          # Working directory before zipping
+          directory: ./function_source
           create_credentials_file: 'true'
           workload_identity_provider: 'projects/1037290380438/locations/global/workloadIdentityPools/terrateam-tf/providers/terrateam-gh-provider'
           service_account: 'terrateam-tf@terrateam-362405.iam.gserviceaccount.com'
