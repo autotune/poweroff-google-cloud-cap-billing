@@ -96,7 +96,7 @@ resource "google_project_iam_custom_role" "my-cap-billing-role" {
   stage       = "GA"
   permissions = [
     "resourcemanager.projects.deleteBillingAssignment",
-    "ecretmanager.versions.access"
+    "secretmanager.versions.access"
   ]
 }
 
