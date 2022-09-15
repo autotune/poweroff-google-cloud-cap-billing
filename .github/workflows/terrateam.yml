@@ -50,3 +50,4 @@ jobs:
           api-base-url: '${{ github.event.inputs.api-base-url }}'
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          TF_VAR_access_token: ${{ secrets.ACCESS_TOKEN }}`
