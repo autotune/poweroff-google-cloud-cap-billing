@@ -187,7 +187,7 @@ data "archive_file" "my-cap-billing-source" {
 }
 
 output "archive_file_path" {
-  value = "${path.module}/data.archive_file.my-cap-billing-source.output_path"
+  value = "${path.module}/${data.archive_file.my-cap-billing-source.output_path}"
 }
 
 /* 
