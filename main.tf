@@ -186,14 +186,6 @@ data "archive_file" "my-cap-billing-source" {
   output_path = "${path.module}/function-source.zip"
 }
 
-data "external" "ls" {
-  program = ["bash", "ls.sh"]
-}
-
-output "ls" {
-  value = data.external.ls.result
-}
-
 /*
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
