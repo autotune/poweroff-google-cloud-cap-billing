@@ -2,4 +2,6 @@
 # package>=version
 google-cloud-billing==1.6.1
 google-cloud-secret-manager==2.0.0
+slackclient==2.9.4
+
 
