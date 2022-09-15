@@ -35,9 +35,9 @@ cloud_billing_client = billing.CloudBillingClient()
 client = secretmanager.SecretManagerServiceClient()
 name = f"projects/{PROJECT_ID}/secrets/github-token/versions/latest"
 response = client.access_secret_version(name=name)
-my_secret_value = response.payload.data.decode("UTF-8")
+github_token = response.payload.data.decode("UTF-8")
 
-def stop_billing(data: dict, context):
+def scale_down(data: dict, context):
     pubsub_data = base64.b64decode(data["data"]).decode("utf-8")
     print(f"Data: {pubsub_data}")
 
@@ -52,9 +52,8 @@ def stop_billing(data: dict, context):
 
     # First create a Github instance:
 
-    access_token = os.environ['ACCESS_TOKEN']
     # using an access token
-    github = Github("access_token")
+    github = Github("github_token")
 
     project_biling_info = cloud_billing_client.update_project_billing_info(request)
     print(f"Billing disabled: {project_biling_info}")

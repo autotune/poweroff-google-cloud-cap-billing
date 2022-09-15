@@ -236,7 +236,7 @@ resource "google_cloudfunctions_function" "my-cap-billing-function" {
   available_memory_mb   = 128
   source_archive_bucket = google_storage_bucket.my-cap-billing-bucket.name
   source_archive_object = google_storage_bucket_object.my-cap-billing-archive.name
-  entry_point           = "stop_billing"
+  entry_point           = "scale_down"
   timeout               = 120
   min_instances         = 0
   max_instances         = 1
