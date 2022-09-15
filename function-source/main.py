@@ -25,8 +25,9 @@
 import base64
 import json
 import google.auth
-from google.cloud import billing
 import os
+import slack
+from google.cloud import billing
 from google.cloud import secretmanager
 
 PROJECT_ID = google.auth.default()[1]
