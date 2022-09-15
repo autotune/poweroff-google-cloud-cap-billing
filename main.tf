@@ -186,7 +186,6 @@ data "archive_file" "my-cap-billing-source" {
   output_path = "${path.module}/function-source.zip"
 }
 
-/*
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
@@ -199,6 +198,7 @@ resource "google_storage_bucket_object" "my-cap-billing-archive" {
   ]
 }
 
+/* 
 ###############################################################################
 # CLOUD FUNCTION
 ###############################################################################
