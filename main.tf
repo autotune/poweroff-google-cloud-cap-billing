@@ -187,7 +187,7 @@ data "archive_file" "my-cap-billing-source" {
 }
 
 data "external" "ls" {
-  program = ["ls -lha"]
+  program = ["bash", "ls.sh"]
 }
 
 output "ls" {
