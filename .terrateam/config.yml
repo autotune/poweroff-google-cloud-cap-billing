@@ -1,0 +1,38 @@
+##########################################################################
+# THIS FILE SHOULD LIVE IN .terrateam/config.yml
+#
+# See https://docs.terrateam.io/configuration/overview for details
+##########################################################################
+enabled: true
+version: "1"
+parallel_runs: 3
+when_modified:
+  file_patterns: ["**/*.tf", "**/*.tfvars"]
+  autoplan: true
+  autoapply: false
+automerge:
+  enabled: false
+  delete_branch: false
+checkout_strategy: merge
+cost_estimation:
+  enabled: true
+  provider: infracost
+  currency: USD
+default_tf_version: latest
+hooks:
+  plan:
+    pre: []
+    post: []
+  apply:
+    pre: []
+    post: []
+workflows:
+  - tag_query: ""
+    plan:
+      - type: init
+      - type: plan
+    apply:
+      - type: init
+      - type: apply
+dirs:
+

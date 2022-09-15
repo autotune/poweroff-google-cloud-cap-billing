@@ -26,6 +26,41 @@ provider "google" {
 }
 
 ###############################################################################
+# CONFIGURE GITHUB TOKEN SECRET 
+###############################################################################
+
+resource "google_secret_manager_secret" "github-token" {
+  secret_id = "github-token"
+
+  replication {
+    automatic = true
+  }
+}
+
+
+resource "google_secret_manager_secret_version" "github-token" {
+  secret = google_secret_manager_secret.github-token.id
+
+  secret_data = var.access_token 
+}
+
+resource "google_secret_manager_secret" "slack-token" {
+  secret_id = "slack-token"
+
+  replication {
+    automatic = true
+  }
+}
+
+
+resource "google_secret_manager_secret_version" "slack-token" {
+  secret = google_secret_manager_secret.slack-token.id
+
+  secret_data = var.slack_token 
+}
+
+
+###############################################################################
 # GET DATA
 ###############################################################################
 
@@ -75,7 +110,8 @@ resource "google_project_iam_custom_role" "my-cap-billing-role" {
   description = "Custom role to unlink project from billing account"
   stage       = "GA"
   permissions = [
-    "resourcemanager.projects.deleteBillingAssignment"
+    "resourcemanager.projects.deleteBillingAssignment",
+    "secretmanager.versions.access"
   ]
 }
 
@@ -171,30 +207,14 @@ resource "google_storage_bucket" "my-cap-billing-bucket" {
   }
 }
 
-# Create ZIP with source code for GCF
-# https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/archive_file
-data "archive_file" "my-cap-billing-source" {
-  type = "zip"
-  source {
-    content  = file("${path.module}/function-source/main.py")
-    filename = "main.py"
-  }
-  source {
-    content  = file("${path.module}/function-source/requirements.txt")
-    filename = "requirements.txt"
-  }
-  output_path = "${path.module}/function-source.zip"
-}
-
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
-  name   = "function-source-${data.archive_file.my-cap-billing-source.output_md5}.zip"
+  name   = md5("${path.module}/function-source.zip")
   bucket = google_storage_bucket.my-cap-billing-bucket.name
-  source = data.archive_file.my-cap-billing-source.output_path
+  source = "${path.module}/function-source.zip"
   depends_on = [
-    google_storage_bucket.my-cap-billing-bucket,
-    data.archive_file.my-cap-billing-source
+    google_storage_bucket.my-cap-billing-bucket
   ]
 }
 
@@ -231,7 +251,7 @@ resource "google_cloudfunctions_function" "my-cap-billing-function" {
   available_memory_mb   = 128
   source_archive_bucket = google_storage_bucket.my-cap-billing-bucket.name
   source_archive_object = google_storage_bucket_object.my-cap-billing-archive.name
-  entry_point           = "stop_billing"
+  entry_point           = "scale_down"
   timeout               = 120
   min_instances         = 0
   max_instances         = 1
@@ -252,4 +272,4 @@ resource "google_cloudfunctions_function" "my-cap-billing-function" {
     google_pubsub_topic.my-cap-billing-pubsub,
     null_resource.wait-for-archive
   ]
-}
+} 
