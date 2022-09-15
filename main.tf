@@ -191,7 +191,7 @@ data "archive_file" "my-cap-billing-source" {
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
   name   = "function-source-${data.archive_file.my-cap-billing-source.output_md5}.zip"
   bucket = google_storage_bucket.my-cap-billing-bucket.name
-  source = "${path.module}/${data.archive_file.my-cap-billing-source.output_path}"
+  source = data.archive_file.my-cap-billing-source.output_path
   depends_on = [
     google_storage_bucket.my-cap-billing-bucket,
     data.archive_file.my-cap-billing-source
