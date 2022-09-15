@@ -41,13 +41,10 @@ slack_secret    = f"projects/{PROJECT_ID}/secrets/slack-token/versions/latest"
 slack_response  = client.access_secret_version(name=slack_secret)
 slack_token     = slack_response.payload.data.decode("UTF-8")
 
-BOT_ACCESS_TOKEN = slack_token
-CHANNEL = 'C04305LVC8H'
-
-slack_client = slack.WebClient(token=BOT_ACCESS_TOKEN)
+slack_client = slack.WebClient(token=slack_token)
 
 
-def notify_slack(data, context):
+def notify_slack(data, context, channel):
     pubsub_message = data
 
     # For more information, see
@@ -70,7 +67,7 @@ def notify_slack(data, context):
         slack_client.api_call(
             'chat.postMessage',
             json={
-                'channel': CHANNEL,
+                'channel': channel,
                 'text'   : budget_notification_text
             }
         )
@@ -94,7 +91,7 @@ def scale_down(data: dict, context):
     # First create a Github instance:
 
     # using an access token
-    github = Github("github_token")
+    github = Github(github_token)
 
     project_biling_info = cloud_billing_client.update_project_billing_info(request)
     print(f"Billing disabled: {project_biling_info}")
