@@ -176,7 +176,7 @@ resource "google_storage_bucket" "my-cap-billing-bucket" {
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
   name   = "function-source.zip"
   bucket = google_storage_bucket.my-cap-billing-bucket.name
-  source = file("${path.module}/function-source.zip")
+  source = "${path.module}/function-source.zip"
   depends_on = [
     google_storage_bucket.my-cap-billing-bucket
   ]
