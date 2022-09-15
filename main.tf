@@ -174,7 +174,7 @@ resource "google_storage_bucket" "my-cap-billing-bucket" {
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
-  name   = "function-source-${data.archive_file.my-cap-billing-source.output_md5}.zip"
+  name   = "function-source.zip"
   bucket = google_storage_bucket.my-cap-billing-bucket.name
   source = file("${path.module}/function-source.zip")
   depends_on = [
