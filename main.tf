@@ -182,7 +182,6 @@ resource "google_storage_bucket_object" "my-cap-billing-archive" {
   ]
 }
 
-/* 
 ###############################################################################
 # CLOUD FUNCTION
 ###############################################################################
@@ -237,4 +236,4 @@ resource "google_cloudfunctions_function" "my-cap-billing-function" {
     google_pubsub_topic.my-cap-billing-pubsub,
     null_resource.wait-for-archive
   ]
-} */
+} 
