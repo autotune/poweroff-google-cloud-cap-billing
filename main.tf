@@ -26,6 +26,26 @@ provider "google" {
 }
 
 ###############################################################################
+# CONFIGURE GITHUB TOKEN SECRET 
+###############################################################################
+
+resource "google_secret_manager_secret" "github-token" {
+  secret_id = "github-token"
+
+  replication {
+    automatic = true
+  }
+}
+
+
+resource "google_secret_manager_secret_version" "github-token" {
+  secret = google_secret_manager_secret.github-token.id
+
+  secret_data = var.ACCESS_TOKEN 
+}
+
+
+###############################################################################
 # GET DATA
 ###############################################################################
 
