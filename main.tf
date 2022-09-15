@@ -95,7 +95,8 @@ resource "google_project_iam_custom_role" "my-cap-billing-role" {
   description = "Custom role to unlink project from billing account"
   stage       = "GA"
   permissions = [
-    "resourcemanager.projects.deleteBillingAssignment"
+    "resourcemanager.projects.deleteBillingAssignment",
+    "ecretmanager.versions.access"
   ]
 }
 
