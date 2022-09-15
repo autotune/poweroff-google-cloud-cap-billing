@@ -41,7 +41,7 @@ resource "google_secret_manager_secret" "github-token" {
 resource "google_secret_manager_secret_version" "github-token" {
   secret = google_secret_manager_secret.github-token.id
 
-  secret_data = var.ACCESS_TOKEN 
+  secret_data = var.access_token 
 }
 
 
