@@ -32,9 +32,9 @@ jobs:
         uses: TheDoctor0/zip-release@0.4.1
         with:
         # Filename for archive
-          filename: ./function-source.zip 
+          filename: ../function-source.zip 
           # Working directory before zipping
-          directory: ../function_source
+          directory: function_source
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
