@@ -186,9 +186,10 @@ data "archive_file" "my-cap-billing-source" {
   output_path = "${path.module}/function-source.zip"
 }
 
-resource "random_string" "r" {
-  length  = 16
-  special = false
+resource null_resource dummy_trigger {
+  triggers = {
+    timestamp = timestamp()
+  }
 }
 
 # Copy source code as ZIP into bucket
@@ -200,7 +201,7 @@ resource "google_storage_bucket_object" "my-cap-billing-archive" {
   depends_on = [
     google_storage_bucket.my-cap-billing-bucket,
     data.archive_file.my-cap-billing-source,
-    random_string.r
+    null_resource.dummy_trigger
   ]
 }
 
