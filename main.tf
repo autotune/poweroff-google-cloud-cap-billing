@@ -199,7 +199,7 @@ resource "google_storage_bucket_object" "my-cap-billing-archive" {
   source = data.archive_file.my-cap-billing-source.output_path
   depends_on = [
     google_storage_bucket.my-cap-billing-bucket,
-    data.archive_file.my-cap-billing-source
+    data.archive_file.my-cap-billing-source,
     random_string.r
   ]
 }
