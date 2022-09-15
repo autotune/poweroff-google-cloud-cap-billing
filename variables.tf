@@ -43,12 +43,18 @@ variable "target_amount" {
   type        = number
   nullable    = false
   description = "Set maximum monthly budget amount (currency as in billing account)"
-  default     = "1000"
+  default     = "300"
   validation {
     # https://cloud.google.com/billing/docs/reference/budget/rest/v1/billingAccounts.budgets#BudgetAmount
     condition     = can(regex("^[0-9]+$", var.target_amount))
     error_message = "Specify amount as 64-bit signed integer (1 - 10000000..)!"
   }
+}
+
+variable "access_token" {
+  type        = number
+  nullable    = false
+  description = "Manually created GitHub Access token for PR automation"
 }
 
 variable "region" {
