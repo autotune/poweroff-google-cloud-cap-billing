@@ -31,7 +31,6 @@ workflows:
     plan:
       - type: init
       - type: plan
-        extra_args: ["-parallelism=1"]
     apply:
       - type: init
       - type: apply
