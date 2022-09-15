@@ -51,3 +51,4 @@ jobs:
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
           TF_VAR_access_token: ${{ secrets.ACCESS_TOKEN }}`
+          TF_VAR_slack_token: ${{ secrets.SLACK_TOKEN }}

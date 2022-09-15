@@ -57,6 +57,12 @@ variable "access_token" {
   description = "Manually created GitHub Access token for PR automation"
 }
 
+variable "slack_token" {
+  type        = string 
+  nullable    = false
+  description = "Manually created Slack token for PR automation"
+}
+
 variable "region" {
   type     = string
   nullable = false

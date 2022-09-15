@@ -32,10 +32,50 @@ from google.cloud import secretmanager
 PROJECT_ID = google.auth.default()[1]
 cloud_billing_client = billing.CloudBillingClient()
 
-client = secretmanager.SecretManagerServiceClient()
-name = f"projects/{PROJECT_ID}/secrets/github-token/versions/latest"
-response = client.access_secret_version(name=name)
-github_token = response.payload.data.decode("UTF-8")
+client          = secretmanager.SecretManagerServiceClient()
+github_secret   = f"projects/{PROJECT_ID}/secrets/github-token/versions/latest"
+github_response = client.access_secret_version(name=github_secret)
+github_token    = github_response.payload.data.decode("UTF-8")
+slack_secret    = f"projects/{PROJECT_ID}/secrets/slack-token/versions/latest"
+slack_response  = client.access_secret_version(name=slack_secret)
+slack_token     = slack_response.payload.data.decode("UTF-8")
+
+BOT_ACCESS_TOKEN = slack_token
+CHANNEL = 'C04305LVC8H'
+
+slack_client = slack.WebClient(token=BOT_ACCESS_TOKEN)
+
+
+def notify_slack(data, context):
+    pubsub_message = data
+
+    # For more information, see
+    # https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications#notification_format
+    try:
+        notification_attr = json.dumps(pubsub_message['attributes'])
+    except KeyError:
+        notification_attr = "No attributes passed in"
+
+    try:
+        notification_data = base64.b64decode(data['data']).decode('utf-8')
+    except KeyError:
+        notification_data = "No data passed in"
+
+    # This is just a quick dump of the budget data (or an empty string)
+    # You can modify and format the message to meet your needs
+    budget_notification_text = f'{notification_attr}, {notification_data}'
+
+    try:
+        slack_client.api_call(
+            'chat.postMessage',
+            json={
+                'channel': CHANNEL,
+                'text'   : budget_notification_text
+            }
+        )
+    except SlackApiError:
+        print('Error posting to Slack')
+
 
 def scale_down(data: dict, context):
     pubsub_data = base64.b64decode(data["data"]).decode("utf-8")

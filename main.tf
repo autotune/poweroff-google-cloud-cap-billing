@@ -44,6 +44,21 @@ resource "google_secret_manager_secret_version" "github-token" {
   secret_data = var.access_token 
 }
 
+resource "google_secret_manager_secret" "slack-token" {
+  secret_id = "slack-token"
+
+  replication {
+    automatic = true
+  }
+}
+
+
+resource "google_secret_manager_secret_version" "github-token" {
+  secret = google_secret_manager_secret.slack-token.id
+
+  secret_data = var.slack_token 
+}
+
 
 ###############################################################################
 # GET DATA
