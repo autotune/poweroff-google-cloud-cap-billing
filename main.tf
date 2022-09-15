@@ -186,17 +186,12 @@ data "archive_file" "my-cap-billing-source" {
   output_path = "${path.module}/function-source.zip"
 }
 
-output "archive_file_path" {
-  value = "${path.module}/${data.archive_file.my-cap-billing-source.output_path}"
-}
-
-/* 
 # Copy source code as ZIP into bucket
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object
 resource "google_storage_bucket_object" "my-cap-billing-archive" {
   name   = "function-source-${data.archive_file.my-cap-billing-source.output_md5}.zip"
   bucket = google_storage_bucket.my-cap-billing-bucket.name
-  source = "${path.module}/function-source.zip"
+  source = "${path.module}/${data.archive_file.my-cap-billing-source.output_path"
   depends_on = [
     google_storage_bucket.my-cap-billing-bucket,
     data.archive_file.my-cap-billing-source
