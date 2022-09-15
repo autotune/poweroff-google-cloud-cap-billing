@@ -52,7 +52,7 @@ variable "target_amount" {
 }
 
 variable "access_token" {
-  type        = number
+  type        = string 
   nullable    = false
   description = "Manually created GitHub Access token for PR automation"
 }
