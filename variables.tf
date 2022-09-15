@@ -28,8 +28,8 @@ variable "project_id" {
     # Cannot end with a hyphen.
     condition     = can(regex("^[a-z][a-z0-9-]{4,28}[a-z0-9]$", var.project_id))
     error_message = "Invalid project ID!"
-    default       = "terrateam-362405"
   }
+  default       = "terrateam-362405"
 }
 
 variable "pubsub_topic" {
