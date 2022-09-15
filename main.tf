@@ -171,8 +171,6 @@ resource "google_storage_bucket" "my-cap-billing-bucket" {
   }
 }
 
-/*
-
 # Create ZIP with source code for GCF
 # https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/archive_file
 data "archive_file" "my-cap-billing-source" {
@@ -199,6 +197,8 @@ resource "google_storage_bucket_object" "my-cap-billing-archive" {
     data.archive_file.my-cap-billing-source
   ]
 }
+
+/*
 
 ###############################################################################
 # CLOUD FUNCTION
