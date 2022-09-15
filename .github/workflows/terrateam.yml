@@ -34,7 +34,7 @@ jobs:
         # Filename for archive
           filename: ./function-source.zip 
           # Working directory before zipping
-          directory: ./function_source
+          directory: ../function_source
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
