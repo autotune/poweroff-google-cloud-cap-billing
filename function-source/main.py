@@ -42,13 +42,13 @@ def stop_billing(data: dict, context):
     if cost_amount <= budget_amount:
         print(f"No action necessary. (Current cost: {cost_amount})")
         return
+    from github import Github
 
-    project_name = cloud_billing_client.common_project_path(PROJECT_ID)
-    request = billing.UpdateProjectBillingInfoRequest(
-        name=project_name,
-        project_billing_info=billing.ProjectBillingInfo(
-            billing_account_name=""  # Disable billing
-        ),
-    )
+    # First create a Github instance:
+
+    access_token = os.environ['ACCESS_TOKEN']
+    # using an access token
+    github = Github("access_token")
+
     project_biling_info = cloud_billing_client.update_project_billing_info(request)
     print(f"Billing disabled: {project_biling_info}")
