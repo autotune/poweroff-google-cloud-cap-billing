@@ -25,5 +25,6 @@ hooks:
     pre:
       - type: env
         name: TF_LOG
+        cmd: ['echo', 'DEBUG']
 workflows:
 dirs:
